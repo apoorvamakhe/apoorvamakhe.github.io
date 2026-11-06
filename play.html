@@ -3,21 +3,86 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Play · Apoorva</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Side Quests · Apoorva Makhe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="sidequests.css">
+  <link rel="stylesheet" href="grid.css">
 </head>
-<body>
-  <header class="nav">
-    <a class="logo" href="index.html">Apoorva</a>
-    <nav>
-      <a href="work.html">Work</a>
-      <a href="play.html" aria-current="page">Play</a>
-      <a href="about.html">About</a>
-    </nav>
-  </header>
-  <main class="page">
-    <h1>Play</h1>
-    <p>Experiments, sketches and side projects will live here.</p>
+<body class="quests">
+  <main class="board">
+    <div class="field">
+
+      <h1 class="title" aria-label="Side Quests">
+        <span>S</span><span>i</span><span>d</span><span>e</span><span class="gap"> </span><span>Q</span><span>u</span><span>e</span><span>s</span><span>t</span><span>s</span>
+      </h1>
+
+      <a class="home" href="index.html" aria-label="Back home">
+        <svg class="door" viewBox="0 0 80 102" aria-hidden="true">
+          <!-- dark doorway, slightly wobbly ink edges -->
+          <path d="M32.4 5.2 L44 4.6 L58 5.1 L75.2 4.4 L74.6 22 L75.4 41 L74.8 60 L75.6 78 L75.1 95.4 L60 94.8 L46 95.6 L32 95 Z" fill="currentColor"/>
+          <!-- a few specks of light in the dark -->
+          <g fill="#fff" opacity=".85">
+            <rect x="55" y="18" width=".9" height=".9"/><rect x="63" y="27" width=".7" height=".7"/>
+            <rect x="50" y="38" width=".8" height=".8"/><rect x="67" y="49" width=".9" height=".9"/>
+            <rect x="57" y="61" width=".7" height=".7"/><rect x="45" y="70" width=".9" height=".9"/>
+            <rect x="64" y="77" width=".8" height=".8"/><rect x="52" y="86" width=".7" height=".7"/>
+          </g>
+          <!-- the door, swung open toward us -->
+          <path d="M2.2 2.4 L18 3.6 L33.2 5.6 L32.4 50 L32.8 93.6 L18 96.8 L4.2 100.2 L3.4 50 Z"
+                fill="#fff" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/>
+          <!-- door edge thickness -->
+          <path d="M2.2 2.4 L0.9 3.4 L1.6 50 L2.6 99.6 L4.2 100.2" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+          <!-- inset panels -->
+          <path d="M10.4 13.2 L20 13.8 L29 14.6 L28.7 32 L28.6 49.4 L20 50 L11.7 50.7 L11 32 Z"
+                fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+          <path d="M11.2 61.2 L20 60 L28.1 59 L27.9 71 L27.7 83.4 L20 85 L11.3 86.6 L11.1 74 Z"
+                fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+          <!-- knob -->
+          <circle cx="8.6" cy="54.6" r="1.9" fill="currentColor"/>
+        </svg>
+        <span>AM</span>
+      </a>
+
+      <!--
+        Positions come from the Figma frame (1976px wide).
+        --x/--y/--w/--h place the picture; --cx/--cy place its caption
+        relative to the picture's top-left corner.
+        Each picture links to its own page.
+      -->
+
+      <a class="tile" href="sketchbook.html" style="--x:165;--y:343;--w:148;--h:177;--cx:50;--cy:227;--i:0">
+        <div class="card">
+          <img src="images/sidequests/sketchbook.png" alt="Sketching in a small sketchbook outdoors">
+        </div>
+        <p class="cap">Me and my sketchbook<br>in the middle of nowhere</p>
+      </a>
+
+      <a class="tile" href="cats.html" style="--x:1244;--y:284;--w:145;--h:230;--cx:89;--cy:-58;--i:1">
+        <div class="card">
+          <img src="images/sidequests/cats.png" alt="Old postcard of a fluffy kitten labelled Baby">
+        </div>
+        <p class="cap">The Directory of cats</p>
+      </a>
+
+      <a class="tile" href="sat-sangeet.html" style="--x:715;--y:725;--w:373;--h:154;--cx:205;--cy:181;--i:2">
+        <div class="card">
+          <img src="images/sidequests/sat-sangeet.png" alt="Black and white photo of musicians performing">
+        </div>
+        <p class="cap">Sat-Sangeet</p>
+      </a>
+
+      <a class="tile" href="https://www.youtube.com/watch?v=YMuXfNlKXwA&amp;list=PLFkCvpehgig0&amp;pp=8AUBsAgC" target="_blank" rel="noopener" style="--x:1671;--y:751;--w:129;--h:193;--cx:-133;--cy:230;--i:3">
+        <div class="card cutout">
+          <img src="images/sidequests/gramophone.png" alt="Gramophone">
+        </div>
+        <p class="cap">A smol gift for you</p>
+      </a>
+
+    </div>
   </main>
+
+  <script src="projects.js"></script>
 </body>
 </html>

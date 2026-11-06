@@ -1,0 +1,179 @@
+/* Side Quests page. Positions come from the Figma frame (1976px wide);
+   1 Figma px = var(--u). Shares the hover sway in projects.js. */
+
+:root {
+  --bg: #ffffff;
+  --ink: #000000;
+  --accent: #f5a623;
+  --font: "DotGothic16", ui-monospace, monospace;
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --glide: cubic-bezier(.12, .8, .25, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body.quests {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  overflow-x: hidden;
+}
+
+.board { container-type: inline-size; }
+
+.field {
+  --u: calc(100cqw / 1976);
+  position: relative;
+  height: max(100vh, calc(1111 * var(--u)));
+}
+
+/* ---------- Title ---------- */
+.title {
+  position: absolute;
+  left: calc(38 * var(--u));
+  top: calc(36 * var(--u));
+  font-weight: 400;
+  font-size: calc(104 * var(--u));
+  line-height: 1;
+  display: flex;
+}
+.title span {
+  display: inline-block;
+  animation: drop .9s var(--ease) both;
+  transition: transform .5s var(--ease);
+}
+.title .gap { width: .45em; }
+.title span:hover { transform: translateY(-0.12em); }
+.title span:nth-child(1)  { animation-delay: 0ms }   .title span:nth-child(2)  { animation-delay: 50ms }
+.title span:nth-child(3)  { animation-delay: 100ms } .title span:nth-child(4)  { animation-delay: 150ms }
+.title span:nth-child(6)  { animation-delay: 250ms } .title span:nth-child(7)  { animation-delay: 300ms }
+.title span:nth-child(8)  { animation-delay: 350ms } .title span:nth-child(9)  { animation-delay: 400ms }
+.title span:nth-child(10) { animation-delay: 450ms } .title span:nth-child(11) { animation-delay: 500ms }
+
+@keyframes drop {
+  from { opacity: 0; transform: translateY(-0.4em); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- Home link (door + AM) ---------- */
+.home {
+  position: absolute;
+  right: calc(40 * var(--u));
+  top: calc(42 * var(--u));
+  display: flex;
+  align-items: center;
+  gap: calc(12 * var(--u));
+  color: var(--ink);
+  text-decoration: none;
+}
+.home svg { width: clamp(16px, calc(36 * var(--u)), 40px); height: auto; }
+.home span {
+  color: var(--accent);
+  font-size: clamp(14px, calc(34 * var(--u)), 36px);
+}
+.home:hover span { color: var(--ink); }
+
+/* ---------- Pictures ---------- */
+.tile {
+  position: absolute;
+  left:   calc(var(--x) * var(--u));
+  top:    calc(var(--y) * var(--u));
+  width:  calc(var(--w) * var(--u));
+  height: calc(var(--h) * var(--u));
+  color: var(--ink);
+  text-decoration: none;
+  transform: translate(var(--dx, 0px), var(--dy, 0px)) rotate(var(--rot, 0deg));
+  transition: transform 1.6s var(--glide);
+  will-change: transform;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  animation:
+    enter 1s var(--ease) both,
+    float 7s ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * 120ms + 250ms), calc(var(--i) * -1.7s);
+}
+.card img {
+  display: block;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.card.cutout img { object-fit: contain; }
+
+/* placeholder if an image file goes missing */
+.card:has(img.missing) { border: 1px dashed #bbb; }
+.card img.missing { display: none; }
+
+@keyframes enter {
+  from { opacity: 0; transform: translateY(calc(40 * var(--u))) scale(.97); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes float {
+  0%   { translate: 0 0;                                    rotate: 0deg; }
+  50%  { translate: calc(4 * var(--u)) calc(-8 * var(--u)); rotate: .35deg; }
+  100% { translate: calc(-4 * var(--u)) calc(4 * var(--u)); rotate: -.3deg; }
+}
+
+/* ---------- Captions ---------- */
+.cap {
+  position: absolute;
+  left: calc(var(--cx) * var(--u));
+  top:  calc(var(--cy) * var(--u));
+  font-size: clamp(13px, calc(25 * var(--u)), 28px);
+  line-height: 1.45;
+  letter-spacing: .02em;
+  white-space: nowrap;
+  transition: color .4s ease;
+  animation: enter 1s var(--ease) both;
+  animation-delay: calc(var(--i) * 120ms + 450ms);
+}
+.tile.active .cap { color: var(--accent); }
+
+/* ---------- Hover: the picture pops ---------- */
+/* invisible halo so hovering *around* a picture counts too */
+.tile::before {
+  content: "";
+  position: absolute;
+  inset: calc(-60 * var(--u));
+}
+.card {
+  scale: 1;
+  transition: scale .55s cubic-bezier(.34, 1.7, .5, 1);   /* springy overshoot */
+}
+.tile:hover .card,
+.tile.active .card,
+.tile:focus-visible .card { scale: 1.14; }
+.tile:hover, .tile.active { z-index: 2; }
+
+.tile:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; }
+
+/* ---------- Mobile: one gentle column ---------- */
+@media (max-width: 700px) {
+  .field {
+    --u: calc(100cqw / 900);
+    height: auto;
+    padding: 24px 16px 64px;
+    display: flex; flex-direction: column; gap: 72px;
+  }
+  .title { position: static; font-size: 40px; }
+  .home  { position: absolute; right: 16px; top: 30px; gap: 6px; }
+  .home svg { width: 18px; }
+  .home span { font-size: 16px; }
+  .tile {
+    position: relative; left: auto; top: auto;
+    width: 60%; height: auto;
+    aspect-ratio: calc(var(--w) / var(--h));
+    margin-bottom: 32px;
+  }
+  .tile:nth-of-type(even) { align-self: flex-end; }
+  .tile:nth-of-type(3) { width: 100%; }
+  .tile:nth-of-type(4) { width: 40%; }
+  .cap { left: 0; top: calc(100% + 10px); font-size: 14px; white-space: normal; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .cap, .title span { animation: none; }
+  .tile, .cap { transition: none; }
+}

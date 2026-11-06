@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sat-Sangeet · Apoorva Makhe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="sketchbook.css">
+  <link rel="stylesheet" href="sangeet.css">
+  <link rel="stylesheet" href="grid.css">
+</head>
+<body class="sketch sangeet">
+  <main class="board">
+    <div class="field">
+
+      <a class="home" href="index.html" aria-label="Back home">
+        <svg class="door" viewBox="0 0 80 102" aria-hidden="true">
+          <!-- dark doorway, slightly wobbly ink edges -->
+          <path d="M32.4 5.2 L44 4.6 L58 5.1 L75.2 4.4 L74.6 22 L75.4 41 L74.8 60 L75.6 78 L75.1 95.4 L60 94.8 L46 95.6 L32 95 Z" fill="currentColor"/>
+          <!-- a few specks of light in the dark -->
+          <g fill="#fff" opacity=".85">
+            <rect x="55" y="18" width=".9" height=".9"/><rect x="63" y="27" width=".7" height=".7"/>
+            <rect x="50" y="38" width=".8" height=".8"/><rect x="67" y="49" width=".9" height=".9"/>
+            <rect x="57" y="61" width=".7" height=".7"/><rect x="45" y="70" width=".9" height=".9"/>
+            <rect x="64" y="77" width=".8" height=".8"/><rect x="52" y="86" width=".7" height=".7"/>
+          </g>
+          <!-- the door, swung open toward us -->
+          <path d="M2.2 2.4 L18 3.6 L33.2 5.6 L32.4 50 L32.8 93.6 L18 96.8 L4.2 100.2 L3.4 50 Z"
+                fill="#fff" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/>
+          <!-- door edge thickness -->
+          <path d="M2.2 2.4 L0.9 3.4 L1.6 50 L2.6 99.6 L4.2 100.2" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+          <!-- inset panels -->
+          <path d="M10.4 13.2 L20 13.8 L29 14.6 L28.7 32 L28.6 49.4 L20 50 L11.7 50.7 L11 32 Z"
+                fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+          <path d="M11.2 61.2 L20 60 L28.1 59 L27.9 71 L27.7 83.4 L20 85 L11.3 86.6 L11.1 74 Z"
+                fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+          <!-- knob -->
+          <circle cx="8.6" cy="54.6" r="1.9" fill="currentColor"/>
+        </svg>
+        <span>AM</span>
+      </a>
+
+      <h1 class="sr">Sat-Sangeet: music to die for</h1>
+
+      <!-- Positions come from the Figma frame (1945px wide). -->
+      <div class="tile" style="--x:295;--y:237;--w:280;--h:301;--i:0">
+        <div class="card"><img src="images/satsangeet/concert.jpg" alt="Apoorva playing violin on stage with an ensemble"></div>
+      </div>
+
+      <div class="tile" style="--x:530;--y:673;--w:213;--h:245;--i:1">
+        <div class="card"><img src="images/satsangeet/violin.jpg" alt="Close-up of a violin and microphone on a carpet" style="object-position:50% 82%"></div>
+      </div>
+
+      <!-- Videos: hover to play, click to keep playing, click again to pause. -->
+      <div class="tile vid" style="--x:1017;--y:351;--w:222;--h:393;--i:2">
+        <div class="card">
+          <video src="videos/sangeet-duet.mp4" poster="videos/sangeet-duet.jpg" muted loop playsinline preload="auto"
+                 aria-label="Violin and guitar duet"></video>
+          <span class="snd" aria-hidden="true">♪</span>
+          <button class="pp" type="button" aria-label="Play"><span class="ico" aria-hidden="true"></span></button>
+        </div>
+      </div>
+
+      <div class="tile vid" style="--x:1407;--y:854;--w:222;--h:393;--i:3">
+        <div class="card">
+          <video src="videos/sangeet-cat.mp4" poster="videos/sangeet-cat.jpg" muted loop playsinline preload="auto"
+                 aria-label="A ginger cat lounging while someone plays the violin"></video>
+          <span class="snd" aria-hidden="true">♪</span>
+          <button class="pp" type="button" aria-label="Play"><span class="ico" aria-hidden="true"></span></button>
+        </div>
+      </div>
+
+      <p class="word die" aria-hidden="true">to die for</p>
+
+    </div>
+  </main>
+
+  <script src="projects.js"></script>
+  <script src="sangeet.js"></script>
+</body>
+</html>

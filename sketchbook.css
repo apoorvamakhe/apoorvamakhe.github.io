@@ -1,0 +1,144 @@
+/* Diary of a Nomad (sketchbook). Positions come from the Figma frame
+   (1964px wide); 1 Figma px = var(--u). Hover sway shared with projects.js. */
+
+:root {
+  --bg: #ffffff;
+  --ink: #000000;
+  --accent: #f5a623;
+  --font: "DotGothic16", ui-monospace, monospace;
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --glide: cubic-bezier(.12, .8, .25, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body.sketch {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  overflow-x: hidden;
+}
+
+.board { container-type: inline-size; }
+
+.field {
+  --u: calc(100cqw / 1964);
+  position: relative;
+  height: max(100vh, calc(1314 * var(--u)));
+}
+
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+/* ---------- Home link (door + AM) ---------- */
+.home {
+  position: absolute;
+  right: calc(28 * var(--u));
+  top: calc(40 * var(--u));
+  display: flex;
+  align-items: center;
+  gap: calc(12 * var(--u));
+  color: var(--ink);
+  text-decoration: none;
+  z-index: 3;
+}
+.home svg { width: clamp(16px, calc(38 * var(--u)), 40px); height: auto; }
+.home span { color: var(--accent); font-size: clamp(14px, calc(34 * var(--u)), 36px); }
+.home:hover span { color: var(--ink); }
+
+/* ---------- Photos ---------- */
+.tile {
+  position: absolute;
+  left:   calc(var(--x) * var(--u));
+  top:    calc(var(--y) * var(--u));
+  width:  calc(var(--w) * var(--u));
+  height: calc(var(--h) * var(--u));
+  display: block;
+  transform: translate(var(--dx, 0px), var(--dy, 0px)) rotate(var(--rot, 0deg));
+  transition: transform 1.6s var(--glide);
+  will-change: transform;
+  cursor: zoom-in;
+}
+.tile.active { z-index: 2; }
+
+.card {
+  width: 100%;
+  height: 100%;
+  animation:
+    rise 1s var(--ease) both,
+    float var(--fdur, 7s) ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * 110ms + 200ms), calc(var(--i) * -1.7s);
+  scale: 1;
+  transition: scale .55s cubic-bezier(.34, 1.7, .5, 1);
+}
+.tile.active .card, .tile:hover .card { scale: 1.08; }
+.card img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.tile:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(calc(30 * var(--u))); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes float {
+  from { translate: calc(var(--fx, 0) * -2 * var(--u)) calc(var(--fy, 0) * -2 * var(--u)); }
+  to   { translate: calc(var(--fx, 0) *  2 * var(--u)) calc(var(--fy, 0) *  2 * var(--u)); }
+}
+
+/* ---------- Words (sit on top of the photos, like the Figma) ---------- */
+.word {
+  position: absolute;
+  font-size: calc(42 * var(--u));
+  line-height: 1.43;
+  letter-spacing: .01em;
+  z-index: 4;
+  pointer-events: none;
+  animation: rise 1s var(--ease) both;
+}
+.the   { left: calc(777 * var(--u)); top: calc(630 * var(--u)); animation-delay: .8s; }
+.diary { left: calc(614 * var(--u)); top: calc(890 * var(--u)); animation-delay: 1s; }
+
+/* ---------- Full-size viewer ---------- */
+.viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  background: rgb(255 255 255 / .92);
+  cursor: zoom-out;
+  animation: fade .3s ease both;
+}
+.viewer[hidden] { display: none; }
+.viewer img {
+  max-width: min(90vw, 900px);
+  max-height: 88vh;
+  object-fit: contain;
+  animation: pop .45s cubic-bezier(.34, 1.5, .5, 1) both;
+}
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pop  { from { opacity: 0; scale: .9; } to { opacity: 1; scale: 1; } }
+
+/* ---------- Mobile: a loose two-column scrapbook ---------- */
+@media (max-width: 700px) {
+  .field {
+    --u: calc(100cqw / 900);
+    height: auto;
+    padding: 80px 16px 64px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+  .home { right: 16px; top: 24px; gap: 6px; }
+  .home svg { width: 18px; }
+  .home span { font-size: 16px; }
+  .tile { position: relative; left: auto; top: auto; width: 100%; height: auto; aspect-ratio: calc(var(--w) / var(--h)); }
+  .tile:nth-of-type(even) { margin-top: 32px; }
+  .word { position: static; font-size: 24px; grid-column: 1 / -1; order: -1; }
+  .the { margin-bottom: -16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .word, .viewer, .viewer img { animation: none; }
+  .tile, .card { transition: none; }
+}

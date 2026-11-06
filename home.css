@@ -1,0 +1,200 @@
+/* Landing page — measurements taken from the Figma frame (1994px wide),
+   expressed in vw so the composition scales with the window. */
+
+:root {
+  --bg: #ffffff;
+  --ink: #000000;
+  --accent: #f5a623;     /* nav orange */
+  --line: #cfcfcf;       /* faint grey of the line drawings */
+  --font: "DotGothic16", ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+
+body.home {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ---------- Header ---------- */
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 2.6vw 2.2vw 0 2.1vw;
+}
+
+.name {
+  display: flex;
+  align-items: center;
+  gap: 3.6vw;
+  font-weight: 400;
+  font-size: 5vw;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  margin-top: -0.2vw;
+}
+
+.flower {
+  width: 3.2vw;
+  height: 3.2vw;
+  transition: transform .8s ease;
+}
+.name:hover .flower { transform: rotate(180deg); }
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.95vw;
+  padding-top: 0;
+}
+
+.menu a {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: clamp(13px, 1.1vw, 22px);
+  letter-spacing: 0.02em;
+}
+.menu a:hover { color: var(--ink); }
+
+/* ---------- Objects ---------- */
+.stage {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.obj {
+  position: absolute;
+  pointer-events: auto;
+  z-index: 2;
+  transition: transform .3s ease;
+}
+.obj img { display: block; width: 100%; height: auto; }
+
+.obj:hover {
+  transform: translateY(-0.6vw);
+}
+
+.brushes  { left: 29.8vw; top: 28.6vw; width: 5.4vw; }
+.violin   { left: 39.1vw; top: 23.5vw; width: 4.9vw; }
+.painting { left: 47.8vw; top: 23.7vw; width: 8.7vw; }
+.chip     { left: 58.8vw; top: 31.7vw; width: 7.6vw; }
+
+/* placeholder until image files exist */
+.obj.missing {
+  aspect-ratio: 1 / 1.6;
+  border: 1px dashed #bbb;
+  display: grid;
+  place-items: center;
+}
+.obj.painting.missing { aspect-ratio: 1 / 1.07; }
+.obj.chip.missing     { aspect-ratio: 1; }
+.obj.missing img { display: none; }
+.obj.missing::after {
+  content: attr(data-label);
+  font-size: 10px;
+  color: #999;
+  text-align: center;
+  padding: 4px;
+}
+
+/* ---------- Tagline ---------- */
+.tagline {
+  position: absolute;
+  right: 2.9vw;
+  bottom: 3vw;
+  text-align: right;
+  font-size: clamp(14px, 1.15vw, 24px);
+  line-height: 1.55;
+  letter-spacing: 0.03em;
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 700px) {
+  .top { flex-direction: column; gap: 28px; padding: 24px 16px 0; }
+  .name { font-size: 8.4vw; gap: 3vw; }
+  .flower { width: 5.5vw; height: 5.5vw; }
+  .menu { flex-direction: row; align-items: center; gap: 20px; }
+
+  .stage {
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 24px;
+    padding: 48px 16px 140px;
+    pointer-events: auto;
+  }
+  .obj { position: static; }
+  .brushes  { width: 18vw; }
+  .violin   { width: 16vw; }
+  .painting { width: 28vw; }
+  .chip     { width: 22vw; }
+
+  .tagline { right: 16px; bottom: 24px; }
+}
+
+/* ---------- Line drawings behind everything ---------- */
+.top, .tagline { position: relative; z-index: 2; }
+.tagline { position: absolute; }
+
+.lineart {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+.lineart .set { opacity: 0; transition: opacity .7s ease; }
+.lineart .set.on { opacity: 1; transition: opacity .2s ease; }
+
+.lineart .ln {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.lineart .set.on .ln {
+  animation: draw var(--dur, 1.6s) cubic-bezier(.45, .05, .25, 1) forwards;
+  animation-delay: var(--d, 0s);
+}
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+/* violin strings shiver a little once they're drawn */
+.lineart .set.on .string {
+  animation:
+    draw var(--dur, 1.6s) cubic-bezier(.45, .05, .25, 1) forwards,
+    shiver .09s linear calc(var(--d, 0s) + var(--dur, 1.6s)) 14 alternate;
+  animation-delay: var(--d, 0s), calc(var(--d, 0s) + var(--dur, 1.6s));
+}
+@keyframes shiver { from { translate: -.6px 0; } to { translate: .6px 0; } }
+
+/* brush stroke: a soft filled shape revealed along its path */
+.lineart .ink { fill: #ececec; }
+.lineart .bristle { stroke: #dedede; stroke-width: .8; }
+.lineart .reveal {
+  fill: none;
+  stroke: #fff;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.lineart .set.on .reveal { animation: draw 1.5s cubic-bezier(.5, 0, .3, 1) forwards; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lineart .ln, .lineart .reveal { stroke-dashoffset: 0; }
+  .lineart .set.on .ln, .lineart .set.on .reveal, .lineart .set.on .string { animation: none; }
+}

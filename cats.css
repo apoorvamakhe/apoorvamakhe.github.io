@@ -1,0 +1,163 @@
+/* The Directory of Cats. Positions come from the Figma frame (1980px wide);
+   1 Figma px = var(--u). Hover sway shared with projects.js. */
+
+:root {
+  --bg: #ffffff;
+  --ink: #000000;
+  --accent: #f5a623;
+  --font: "DotGothic16", ui-monospace, monospace;
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --glide: cubic-bezier(.12, .8, .25, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body.cats {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  overflow-x: hidden;
+}
+
+.board { container-type: inline-size; }
+
+.field {
+  --u: calc(100cqw / 1980);
+  position: relative;
+  height: max(100vh, calc(1500 * var(--u)));
+}
+
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+/* ---------- Home link (door + AM) ---------- */
+.home {
+  position: absolute;
+  right: calc(28 * var(--u));
+  top: calc(40 * var(--u));
+  display: flex;
+  align-items: center;
+  gap: calc(12 * var(--u));
+  color: var(--ink);
+  text-decoration: none;
+  z-index: 3;
+}
+.home svg { width: clamp(16px, calc(38 * var(--u)), 40px); height: auto; }
+.home span { color: var(--accent); font-size: clamp(14px, calc(34 * var(--u)), 36px); }
+.home:hover span { color: var(--ink); }
+
+/* ---------- Question ---------- */
+.ask {
+  position: absolute;
+  left: calc(975 * var(--u));
+  top: calc(226 * var(--u));
+  font-weight: 400;
+  font-size: calc(42 * var(--u));
+  line-height: 1.43;
+  letter-spacing: .01em;
+  animation: rise 1s var(--ease) .1s both;
+}
+
+/* ---------- Cat cards ---------- */
+.tile {
+  position: absolute;
+  left:   calc(var(--x) * var(--u));
+  top:    calc(var(--y) * var(--u));
+  width:  calc(var(--w) * var(--u));
+  height: calc(var(--h) * var(--u));
+  transform: translate(var(--dx, 0px), var(--dy, 0px)) rotate(var(--rot, 0deg));
+  transition: transform 1.6s var(--glide);
+  will-change: transform;
+}
+.tile.active { z-index: 2; }
+
+.card {
+  width: 100%;
+  height: 100%;
+  animation:
+    rise 1s var(--ease) both,
+    float var(--fdur, 7s) ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * 120ms + 250ms), calc(var(--i) * -1.7s);
+  scale: 1;
+  transition: scale .55s cubic-bezier(.34, 1.7, .5, 1);
+}
+.tile.active .card, .tile:hover .card { scale: 1.08; }
+.card img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(calc(30 * var(--u))); }
+  to   { opacity: 1; transform: none; }
+}
+/* straight-line idle drift; direction set per tile in projects.js */
+@keyframes float {
+  from { translate: calc(var(--fx, 0) * -2 * var(--u)) calc(var(--fy, 0) * -2 * var(--u)); }
+  to   { translate: calc(var(--fx, 0) *  2 * var(--u)) calc(var(--fy, 0) *  2 * var(--u)); }
+}
+
+/* ---------- Name boxes ---------- */
+.name {
+  position: absolute;
+  left:  calc(-7 * var(--u));
+  right: calc(-7 * var(--u));
+  top: calc(100% + 8 * var(--u));
+  display: block;
+  animation: rise 1s var(--ease) both;
+  animation-delay: calc(var(--i) * 120ms + 400ms);
+}
+.name input {
+  width: 100%;
+  height: clamp(28px, calc(34 * var(--u)), 40px);
+  border: 1px solid var(--ink);
+  border-radius: clamp(6px, calc(9 * var(--u)), 10px);
+  background: transparent;
+  font: inherit;
+  font-size: clamp(13px, calc(20 * var(--u)), 22px);
+  text-align: center;
+  color: var(--ink);
+  padding: 0 .6em;
+  outline: none;
+  transition: border-color .3s ease, box-shadow .3s ease;
+}
+.name input:hover { border-color: var(--accent); }
+.name input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+/* little "saved" note under the box */
+.saved {
+  position: absolute;
+  left: 0; right: 0;
+  top: calc(100% + 4px);
+  text-align: center;
+  font-size: clamp(11px, calc(16 * var(--u)), 16px);
+  color: var(--accent);
+  opacity: 0;
+  transition: opacity .4s ease;
+}
+.saved.show { opacity: 1; }
+
+/* ---------- Mobile: one gentle column ---------- */
+@media (max-width: 700px) {
+  .field {
+    --u: calc(100cqw / 900);
+    height: auto;
+    padding: 72px 16px 80px;
+    display: flex; flex-direction: column; gap: 88px;
+  }
+  .ask { position: static; font-size: 26px; }
+  .home { right: 16px; top: 24px; gap: 6px; }
+  .home svg { width: 18px; }
+  .home span { font-size: 16px; }
+  .tile {
+    position: relative; left: auto; top: auto;
+    width: 70%; height: auto;
+    aspect-ratio: calc(var(--w) / var(--h));
+  }
+  .tile:nth-of-type(even) { align-self: flex-end; }
+  .name { left: 0; right: 0; top: calc(100% + 10px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .name, .ask { animation: none; }
+  .tile, .card { transition: none; }
+}

@@ -1,0 +1,30 @@
+/* Shared spacing for every page — load this LAST.
+   One page margin (--M) and one column gap (--G), so titles, the door
+   link and page edges line up the same way across the whole site. */
+
+:root {
+  --M: clamp(16px, 2.8vw, 56px);   /* outer margin: left, right, top, bottom */
+  --G: clamp(8px, 1.4vw, 28px);    /* gap between grid columns */
+}
+
+@media (min-width: 701px) {
+  /* page title: same spot and size on every inner page */
+  .board .title {
+    left: var(--M);
+    top: var(--M);
+    font-size: 5.2vw;
+  }
+
+  /* door + AM: same spot and size on every inner page */
+  .board .home {
+    right: var(--M);
+    top: var(--M);
+    gap: .6vw;
+  }
+  .board .home svg  { width: clamp(16px, 1.85vw, 40px); }
+  .board .home span { font-size: clamp(14px, 1.7vw, 36px); }
+
+  /* landing page edges */
+  .home-page .top { padding: var(--M) var(--M) 0; }
+  .home-page .tagline { right: var(--M); bottom: var(--M); }
+}

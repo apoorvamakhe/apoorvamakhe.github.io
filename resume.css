@@ -1,0 +1,77 @@
+.resume {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 120px 40px 80px;
+}
+
+.r-head {
+  border-bottom: 4px solid var(--accent);
+  padding-bottom: 20px;
+  margin-bottom: 32px;
+}
+
+.r-head h1 {
+  font-size: clamp(2.6rem, 8vw, 4.5rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.r-role {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-top: 10px;
+}
+
+.r-contact { color: var(--muted); margin-top: 6px; font-size: .95rem; }
+
+.resume section { margin-bottom: 28px; }
+
+.resume h2 {
+  font-size: .8rem;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.resume h3 { font-size: 1.05rem; font-weight: 600; }
+.resume article { margin-bottom: 18px; }
+
+.r-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: baseline;
+}
+
+.r-row span { color: var(--muted); font-size: .9rem; white-space: nowrap; }
+
+.resume p, .resume li { line-height: 1.55; font-size: .98rem; }
+.resume ul { margin: 6px 0 0 1.1rem; }
+
+.r-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+
+.r-print {
+  margin-top: 16px;
+  font: inherit;
+  background: var(--accent);
+  color: #fff;
+  border: 0;
+  padding: 10px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .resume { padding: 100px 20px 60px; }
+  .r-cols { grid-template-columns: 1fr; gap: 0; }
+}
+
+@media print {
+  .nav, .r-print { display: none; }
+  :root { --bg: #fff; --fg: #000; --muted: #555; }
+  .resume { padding: 0; max-width: none; }
+  @page { margin: 14mm; }
+}
